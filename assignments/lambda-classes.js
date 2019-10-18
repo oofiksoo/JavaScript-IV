@@ -54,6 +54,10 @@ class Instructor extends Person {
     grade(stdnt, sbjct) {
         console.log(`${stdnt.name} receives a perfect score on ${sbjct}`);
     }
+    givegrade(sAttr) {
+        sAttr.grade = Math.random() * (100 - 0);
+        console.log(`${this.name} gives ${sAttr.name} a new grade of ${sAttr.grade}`);
+    }
 }
 const fred = new Instructor({
     name: 'Fred',
@@ -85,7 +89,8 @@ class Student extends Person {
         super(sAttr);
         this.previousBackground = sAttr.previousBackground,
             this.className = sAttr.className,
-            this.favSubjects = [sAttr.favSubjects]
+            this.favSubjects = [sAttr.favSubjects],
+            this.grade = sAttr.grade
     }
     listSubjects() {
         this.favSubjects.forEach(element => {
@@ -98,6 +103,14 @@ class Student extends Person {
     sprintChallenge(sub) {
         console.log(`${this.name} has begun sprint challenge on ${sub}`);
     }
+    graduate() {
+        if (this.grade >= 70) {
+            console.log(`${this.name} can graduate.`)
+        } else {
+            console.log(`${this.name} cannot graduate. Submit more assignments.`)
+        }
+    }
+
 }
 const Paul = new Student({
     name: 'Paul',
@@ -107,26 +120,29 @@ const Paul = new Student({
     specialty: 'Front-end',
     catchPhrase: `Don't forget the homies`,
     className: 'biology',
-    favSubjects: ['math', 'science', 'keybording']
+    favSubjects: ['math', 'science', 'keybording'],
+    grade: 90
 })
 fred.demo(".Net ADAL API Managment");
 fred.grade(Paul, "fishing");
 Paul.listSubjects();
 Paul.PRAssignment("Computers");
-Paul.sprintChallenge("User Interface")
-    /*
+Paul.sprintChallenge("User Interface");
+fred.givegrade(Paul);
+Paul.graduate();
+/*
 
-    #### Project Manager
+#### Project Manager
 
-    * Now that we have instructors and students, we'd be nowhere without our PM's
-    * ProjectManagers are extensions of Instructors
-    * ProjectManagers have the following unique props:
-      * `gradClassName`: i.e. CS1
-      * `favInstructor`: i.e. Sean
-    * ProjectManagers have the following Methods:
-      * `standUp` a method that takes in a slack channel and logs `{name} announces to {channel}, @channel standy times!​​​​​
-      * `debugsCode` a method that takes in a student object and a subject and logs out `{name} debugs {student.name}'s code on {subject}`*
-    */
+* Now that we have instructors and students, we'd be nowhere without our PM's
+* ProjectManagers are extensions of Instructors
+* ProjectManagers have the following unique props:
+  * `gradClassName`: i.e. CS1
+  * `favInstructor`: i.e. Sean
+* ProjectManagers have the following Methods:
+  * `standUp` a method that takes in a slack channel and logs `{name} announces to {channel}, @channel standy times!​​​​​
+  * `debugsCode` a method that takes in a student object and a subject and logs out `{name} debugs {student.name}'s code on {subject}`*
+*/
 class ProjectManager extends Instructor {
     constructor(pmAttr) {
         super(pmAttr);
@@ -154,3 +170,4 @@ const John = new ProjectManager({
 })
 John.standUp("The Big Channel");
 John.debugsCode(Paul, "Data 101");
+John.givegrade(Paul);
